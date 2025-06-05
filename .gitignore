@@ -23,3 +23,7 @@ Thumbs.db
 go.sum
 
 image*.png
+
+.env
+
+gateway/tmp
