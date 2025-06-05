@@ -27,3 +27,4 @@ image*.png
 .env
 
 gateway/tmp
+orders/tmp
