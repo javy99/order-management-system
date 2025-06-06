@@ -22,8 +22,6 @@ Thumbs.db
 # Go modules cache (not needed in repo)
 go.sum
 
-image*.png
-
 .env
 
 gateway/tmp
