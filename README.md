@@ -1,6 +1,6 @@
 # Order Management System (OMS)
 
-![Go Version](https://img.shields.io/badge/go-1.22-blue.svg)
+![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
@@ -33,24 +33,26 @@ This system is built on a microservices architecture, where each service is resp
 
 The project uses a monorepo structure to simplify dependency management and cross-service changes, following standard Go project layout conventions.
 
+```text
 /
-├── .github/ # CI/CD workflows (GitHub Actions)
-├── cmd/ # Main applications for each service (entry points)
-├── internal/ # Private application and library code
-│ ├── server/ # Shared server bootstrapping logic
-│ ├── service/ # Service-specific business logic (handler, service, store)
-│ └── models/ # Go structs for the business domain
-├── pkg/ # Public shared libraries (if any)
-├── scripts/ # Helper scripts (e.g., database migrations)
-├── docker-compose.yml # Local development environment setup
-└── README.md # This file
+├── .github/              # CI/CD workflows (GitHub Actions)
+├── cmd/                  # Main applications for each service (entry points)
+├── internal/             # Private application and library code
+│   ├── server/           # Shared server bootstrapping logic
+│   ├── service/          # Service-specific business logic (handler, service, store)
+│   └── models/           # Go structs for the business domain
+├── pkg/                  # Public shared libraries (if any)
+├── scripts/              # Helper scripts (e.g., database migrations)
+├── docker-compose.yml    # Local development environment setup
+└── README.md             # This file
+```
 
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Go](https://golang.org/doc/install) (version 1.22 or higher)
+- [Go](https://golang.org/doc/install) (version 1.24 or higher)
 - [Docker](https://docs.docker.com/get-docker/)
 
 ### Building and Running a Single Service
