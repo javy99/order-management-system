@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # --- INFRASTRUCTURE SERVICES ---
+
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:14-alpine
+    container_name: oms-postgres
+    environment:
+      # Set the default user, password, and database to be created on startup.
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: oms_db
+    ports:
+      # Map port 5432 on your host machine to port 5432 in the container.
+      - "5432:5432"
+    volumes:
+      # Persist the database data on your host machine, so it's not lost when the container stops.
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # This check tells other services when Postgres is actually ready to accept connections.
+      test: ["CMD-SHELL", "pg_isready -U user -d oms_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ Message Broker Service
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    container_name: oms-rabbitmq
+    ports:
+      - "5672:5672"   # Port for services to connect to RabbitMQ.
+      - "15672:15672"  # Port for the web management UI.
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- APPLICATION SERVICES ---
+
+  # Menu Service
+  menu-service:
+    container_name: oms-menu-service
+    # The 'build' instruction tells Compose to build this image from source, not pull it from a registry.
+    build:
+      context: . # The build context is the root of our project.
+      dockerfile: cmd/menu-service/Dockerfile # Path to the Dockerfile for this service.
+    ports:
+      - "8080:8080"
+    # 'depends_on' ensures that this service will not start until postgres and rabbitmq are healthy.
+    # This prevents connection errors on startup.
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    # We will add environment variables here later for the database connection string.
+    # environment:
+    #   - DATABASE_URL=postgres://user:password@postgres:5432/oms_db?sslmode=disable
+
+# Define the named volume used by the postgres service for data persistence.
+volumes:
+  postgres_data:

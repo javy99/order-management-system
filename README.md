@@ -55,9 +55,52 @@ The project uses a monorepo structure to simplify dependency management and cros
 - [Go](https://golang.org/doc/install) (version 1.24 or higher)
 - [Docker](https://docs.docker.com/get-docker/)
 
-### Building and Running a Single Service
+### Running the Full System with Docker Compose (Recommended)
+Docker Compose is the primary tool for running the entire application stack—including all microservices, databases, and message brokers—on your local machine.
 
-You can build and run any individual service directly using its Dockerfile. For example, to run the `menu-service`:
+#### 1. Start All Services
+This command builds the images for your services (if they've changed) and starts all containers defined in docker-compose.yml. You will see the logs from all services streamed to your terminal.
+
+```sh
+docker-compose up --build
+```
+
+#### 2. Start All Services in the Background
+To run the entire stack in detached mode (-d), which runs the containers in the background and leaves your terminal free, use:
+
+```sh
+docker-compose up -d
+```
+
+#### 3. View Logs
+If you are running in detached mode, you can view logs at any time.
+
+To follow the logs of all running services:
+```sh
+docker-compose logs -f
+```
+To follow the logs of a specific service (e.g., menu-service):
+
+```sh
+docker-compose logs -f menu-service
+```
+
+#### 4. Check Container Status
+To see a list of all containers managed by Compose and check their status (e.g., Up, Exited):
+```sh
+docker-compose ps
+```
+
+#### 5. Stop All Services
+This command stops and removes all containers, networks, and the default volumes created by docker-compose up.
+```sh
+docker-compose down
+```
+
+
+### Building and Running a Single Service (for Isolated Testing)
+While Docker Compose is recommended, you can still build and run any individual service for focused debugging. For example, to run the menu-service:
+`menu-service`:
 
 1.  **Build the Docker image:**
     From the project root directory, run:
