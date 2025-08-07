@@ -1,4 +1,4 @@
-package menuservice
+package main
 
 import (
 	"net/http"
